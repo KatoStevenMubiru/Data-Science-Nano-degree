@@ -1,4 +1,7 @@
 # Airbnb Boston Data Analysis
+# This the link to the blog post 
+https://medium.com/@kato.steven60/unraveling-the-dynamics-of-airbnb-in-boston-a-data-driven-exploration-cc6de7f1c673
+
 
 ## Overview
 This project explores the Airbnb activity in Boston using a dataset obtained from Airbnb Inside initiative. The dataset includes information about listings, reviews, and calendar availability. The goal is to derive insights into the busiest times to visit Boston, pricing patterns, and predicting the popularity of listings.
