@@ -1,111 +1,55 @@
-
 # Disaster Response Pipeline
-
-## Project Summary
-
-This project aims to analyze disaster data to build a model for an API that classifies disaster messages. The goal is to categorize messages so they can be sent to appropriate disaster relief agencies. The project includes an ETL pipeline to clean and process the data, an ML pipeline to train a multi-output classification model, and a Flask web app for user interaction.
-
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Getting Started](#getting-started)
-   - [Dependencies](#dependencies)
-   - [Installing Dependencies](#installing-dependencies)
-3. [Files in the Repository](#files-in-the-repository)
-4. [Running the ETL Pipeline](#running-the-etl-pipeline)
-5. [Running the ML Pipeline](#running-the-ml-pipeline)
-6. [Running the Web App](#running-the-web-app)
-7. [Additional Information](#additional-information)
-   - [Example Commands](#example-commands)
-   - [Web App Visualizations](#web-app-visualizations)
-8. [Acknowledgements](#acknowledgements)
 
 ## Project Overview
 
-In this project, we analyze disaster data from Appen (formerly Figure 8) to build a model for an API that classifies disaster messages. The project includes three main components:
+This project implements a Disaster Response Pipeline that processes and classifies messages from disaster events. The pipeline includes an ETL process for cleaning and storing data, an ML pipeline for training a multi-output classification model, and a web app for user interaction. The aim is to categorize messages and facilitate effective communication between disaster-stricken areas and relevant relief agencies.
 
-1. **ETL Pipeline (process_data.py):** Loads, cleans, and stores data in an SQLite database.
-2. **ML Pipeline (train_classifier.py):** Builds and trains a multi-output classification model using NLP techniques.
-3. **Flask Web App (run.py):** Allows emergency workers to input a new message and get classification results.
+## Table of Contents
 
-## Getting Started
+1. [GitHub & Code Quality](#github--code-quality)
+2. [ETL](#etl)
+3. [Machine Learning](#machine-learning)
+4. [Deployment](#deployment)
+5. [Suggestions to Stand Out](#suggestions-to-make-your-project-stand-out)
 
-### Dependencies
+## GitHub & Code Quality
 
-- Python 3.x
-- Pandas
-- NumPy
-- Scikit-Learn
-- NLTK
-- Flask
-- Plotly
-- SQLAlchemy
+### Repository Link
+[Disaster Response Pipeline Repository](https://github.com/your_username/disaster-response-pipeline)
 
-### Installing Dependencies
+### Commits
+The project demonstrates an understanding of Git and Github, with at least 3 commits made to the repository.
 
-```bash
-pip install -r requirements.txt
-```
+### Documentation
+The README file provides a comprehensive summary of the project, instructions on running Python scripts and the web app, and explanations of repository files. Effective comments and docstrings have been added to functions, adhering to PEP8 style guidelines.
 
-## Files in the Repository
+## ETL
 
-- **app:**
-  - `run.py`: Flask web app.
-  - **templates:**
-    - `master.html`: Main page of the web app.
-    - `go.html`: Classification result page.
+### ETL Script
+The ETL script, `process_data.py`, runs without errors in the terminal. It processes datasets, cleans the data, and stores it in an SQLite database with specified file paths.
 
-- **data:**
-  - `disaster_categories.csv`: Categories dataset.
-  - `disaster_messages.csv`: Messages dataset.
-  - `process_data.py`: ETL pipeline script.
-  - `InsertDatabaseName.db`: SQLite database (output of the ETL pipeline).
+### Data Cleaning
+The ETL script successfully cleans the dataset by merging messages and categories, splitting categories into separate columns, converting values to binary, and removing duplicates.
 
-- **models:**
-  - `train_classifier.py`: ML pipeline script.
-  - `classifier.pkl`: Saved model (output of the ML pipeline).
+## Machine Learning
 
-- `README.md`: Project documentation.
+### ML Script
+The machine learning script, `train_classifier.py`, runs without errors in the terminal. It takes database and model file paths, creates and trains a classifier, and saves it as a pickle file.
 
-## Running the ETL Pipeline
+### NLP Techniques
+The script demonstrates an understanding of NLP techniques, using a custom tokenize function with NLTK for case normalization, lemmatization, and tokenization. This function is used in the ML pipeline for text processing.
 
-```bash
-python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
-```
+### Pipelines and Grid Search
+The script builds a pipeline for text processing and multi-output classification on 36 categories. GridSearchCV is used to find optimal parameters for the model.
 
-## Running the ML Pipeline
+### Model Evaluation
+The project understands training vs. test data and model evaluation. The TF-IDF pipeline is trained only with the training data. The script outputs f1 score, precision, and recall for each category on the test set.
 
-```bash
-python train_classifier.py DisasterResponse.db classifier.pkl
-```
+## Deployment
 
-## Running the Web App
+### Web App
+The web app, `run.py`, runs without errors in the terminal. The main page includes at least two visualizations using data from the SQLite database.
 
-```bash
-python run.py
-```
-
-Visit [http://localhost:3001/](http://localhost:3001/) in your web browser.
-
-## Additional Information
-
-### Example Commands
-
-- For running the ETL pipeline:
-  ```bash
-  python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db
-  ```
-
-- For running the ML pipeline:
-  ```bash
-  python train_classifier.py DisasterResponse.db classifier.pkl
-  ```
-
-### Web App Visualizations
-
-- The web app displays visualizations based on data extracted from the SQLite database.
-
-## Acknowledgements
-
-This project is part of the [Udacity Data Scientist Nanodegree](https://www.udacity.com/course/data-scientist-nanodegree--nd025).
-```
+### Model Usage
+The web app successfully utilizes the trained model to input text and returns classification results for all 36 categories when a user inputs a message.
 
