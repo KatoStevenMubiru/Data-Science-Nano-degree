@@ -8,10 +8,8 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-#from sklearn.externals import joblib
 from sqlalchemy import create_engine
 import joblib
-
 
 app = Flask(__name__)
 
@@ -33,20 +31,21 @@ df = pd.read_sql_table('MessageCategories', engine)
 # load model
 model = joblib.load("../models/classifier.pkl")
 
-
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    # Extract data for the second visualization
+    category_counts = df.iloc[:, 4:].sum().sort_values(ascending=False)
+    category_names = list(category_counts.index)
+    
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
+        # First visualization
         {
             'data': [
                 Bar(
@@ -54,7 +53,6 @@ def index():
                     y=genre_counts
                 )
             ],
-
             'layout': {
                 'title': 'Distribution of Message Genres',
                 'yaxis': {
@@ -62,6 +60,26 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+        
+        # Second visualization
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category",
+                    'tickangle': -45
                 }
             }
         }
@@ -73,7 +91,6 @@ def index():
     
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
-
 
 # web page that handles user query and displays model results
 @app.route('/go')
@@ -92,10 +109,8 @@ def go():
         classification_result=classification_results
     )
 
-
 def main():
     app.run(host='0.0.0.0', port=3000, debug=True)
-
 
 if __name__ == '__main__':
     main()

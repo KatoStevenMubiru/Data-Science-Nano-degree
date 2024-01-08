@@ -12,20 +12,39 @@ from sklearn.model_selection import GridSearchCV
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import pickle
+
+# Download necessary NLTK data
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
 
-# Function to load data from the SQLite database
 def load_data(database_filepath):
+    """
+    Load data from the SQLite database.
+
+    Parameters:
+    database_filepath (str): The file path of the SQLite database.
+
+    Returns:
+    X (pandas.Series): The input features (messages).
+    Y (pandas.DataFrame): The output labels (categories).
+    """
     engine = create_engine(f'sqlite:///{database_filepath}')
-    df = pd.read_sql_table('MessageCategories', engine)  # Updated table name
+    df = pd.read_sql_table('MessageCategories', engine)
     X = df['message']
     Y = df.drop(['id', 'message', 'original', 'genre'], axis=1)
     return X, Y
 
-# Function to tokenize the text data
 def tokenize(text):
+    """
+    Tokenize and lemmatize text data.
+
+    Parameters:
+    text (str): The text data to tokenize.
+
+    Returns:
+    clean_tokens (list of str): The list of clean tokens.
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -36,8 +55,13 @@ def tokenize(text):
 
     return clean_tokens
 
-# Function to build the machine learning pipeline
 def build_model():
+    """
+    Build a machine learning pipeline with GridSearchCV.
+
+    Returns:
+    cv (GridSearchCV): The GridSearchCV object.
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
@@ -54,19 +78,41 @@ def build_model():
 
     return cv
 
-# Function to evaluate the model
 def evaluate_model(model, X_test, Y_test):
+    """
+    Evaluate the model and print out the classification report for each category.
+
+    Parameters:
+    model (GridSearchCV or Pipeline): The trained model.
+    X_test (pandas.Series): The test features.
+    Y_test (pandas.DataFrame): The test labels.
+
+    Returns:
+    None
+    """
     Y_pred = model.predict(X_test)
     for i, col in enumerate(Y_test):
         print(f'Category: {col}\n', classification_report(Y_test[col], Y_pred[:, i]))
 
-# Function to save the model as a pickle file
 def save_model(model, model_filepath):
+    """
+    Save the model to a pickle file.
+
+    Parameters:
+    model (GridSearchCV or Pipeline): The trained model to save.
+    model_filepath (str): The file path to save the model pickle.
+
+    Returns:
+    None
+    """
     with open(model_filepath, 'wb') as file:
         pickle.dump(model, file)
 
-# Main function to run the ML pipeline
 def main():
+    """
+    Main function to run the ML pipeline: load data, split dataset, build model,
+    train model, evaluate model, and save model.
+    """
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
