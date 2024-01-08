@@ -7,18 +7,19 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
 import pickle
-import argparse
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
 
 # Function to load data from the SQLite database
 def load_data(database_filepath):
     engine = create_engine(f'sqlite:///{database_filepath}')
-    df = pd.read_sql_table('YourTableName', engine)
+    df = pd.read_sql_table('MessageCategories', engine)  # Updated table name
     X = df['message']
     Y = df.drop(['id', 'message', 'original', 'genre'], axis=1)
     return X, Y
@@ -66,7 +67,7 @@ def save_model(model, model_filepath):
 
 # Main function to run the ML pipeline
 def main():
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y = load_data(database_filepath)
@@ -89,7 +90,7 @@ def main():
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\
               'save the model to as the second argument. \n\nExample: python '\
-              'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
+              'train_classifier.py data/DisasterResponse.db classifier.pkl')
 
 if __name__ == '__main__':
     main()
