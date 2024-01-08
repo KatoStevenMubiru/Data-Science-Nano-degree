@@ -2,6 +2,21 @@
 
 ## Project Summary
 The Disaster Response Pipeline project is part of the Data Science Nanodegree Program by Udacity. The project involves analyzing disaster data from Figure Eight to build a model that classifies disaster messages. The project includes a web app where an emergency worker can input a new message and receive classification results in several categories. The web app also displays visualizations of the data.
+# Disaster Response Pipeline Project
+
+
+## Installation
+To run this project, you will need Python 3.x and the following libraries:
+- pandas
+- numpy
+- scikit-learn
+- nltk
+- flask
+- plotly
+- sqlalchemy
+- joblib
+
+
 
 ## Project Components
 There are three main components of the project:
@@ -59,6 +74,20 @@ There are three main components of the project:
 
 - `ETL Pipeline Preparation.ipynb`: Jupyter notebook for ETL pipeline preparation.
 - `ML Pipeline Preparation.ipynb`: Jupyter notebook for ML pipeline preparation.
+
+4. Go to http://0.0.0.0:3001/ to view the web app.
+
+
+## Contributing
+This project is open to contributions. If you would like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+
+
+## Troubleshooting
+If you encounter any problems, please check the following:
+- Ensure all dependencies are installed.
+- Check the database and model file paths in the scripts.
+
+
 
 ## Licensing, Authors, Acknowledgements
 This project is part of the Data Science Nanodegree Program by Udacity. The data was provided by Figure Eight. Special thanks to Udacity for the project design and mentorship.
