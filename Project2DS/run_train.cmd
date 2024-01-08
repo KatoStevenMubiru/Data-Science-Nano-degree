@@ -1,1 +1,0 @@
-python train.py DisasterResponse.db classifier.pkl
