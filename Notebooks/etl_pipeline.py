@@ -1,7 +1,7 @@
 import sys
 import pandas as pd
 from sqlalchemy import create_engine
-import argparse
+#import argparse
 
 # Function to load data from CSV files
 def load_data(messages_filepath, categories_filepath):
